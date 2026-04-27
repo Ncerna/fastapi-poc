@@ -1,0 +1,24 @@
+1. Instalar FastAPI
+pip install fastapi uvicorn
+
+2.Ejecutar proyecto 
+uvicorn main:app --reload
+
+fastapi-poc/
+│
+├── main.py
+│
+├── domain/
+│   └── entities/
+│       └── product.py
+│
+├── application/
+│   ├── interfaces/
+│   └── services/
+│
+├── infrastructure/
+│   └── repositories/
+│       └── django_product_repository.py    (Django ORM aquí)
+│
+└── presentation/
+    └── controllers/  (FastAPI)
