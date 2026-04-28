@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from domain.entities.product import Product
+
 
 class IProductRepository(ABC):
 
     @abstractmethod
-    def get_all(self) -> List[Product]:
+    def get_all(self, page: int = 1, size: int = 10) -> Tuple[List[Product], int]:
         pass
 
     @abstractmethod

@@ -1,7 +1,7 @@
 from typing import List
 from domain.entities.user import User
 from application.interfaces.user_repository import IUserRepository
-from application.interfaces.user_service_interface import IUserService
+from application.contract.user_service_interface import IUserService
 
 
 class UserService(IUserService):

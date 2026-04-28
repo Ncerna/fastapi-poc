@@ -1,37 +1,59 @@
 from application.interfaces.product_repository_interface import IProductRepository
 from infrastructure.django_infra.models.product_model import ProductModel
-from infrastructure.mappers.product.product_mapper import ProductMapper
+from application.mappers.product_mapper import ProductMapper
 from domain.entities.product import Product
-from typing import List, Optional
+
+from typing import List, Tuple, Optional
+
 
 class ProductRepository(IProductRepository):
 
-    def get_all(self) -> List[Product]:
+    def get_all(self, page: int = 1, size: int = 10) -> Tuple[List[Product], int]:
         queryset = ProductModel.objects.all()
-        return [ProductMapper.to_entity(obj) for obj in queryset]
+
+        total = queryset.count()
+
+        start = (page - 1) * size
+        end = start + size
+
+        items = queryset[start:end]
+
+        return (
+            [ProductMapper.to_entity(obj) for obj in items],
+            total
+        )
 
     def get_by_id(self, product_id: int) -> Optional[Product]:
-        obj = ProductModel.objects.get(id=product_id)
+        obj = ProductModel.objects.filter(id=product_id).first()
+
+        if not obj:
+            return None
+
         return ProductMapper.to_entity(obj)
 
     def create(self, product: Product) -> Product:
         model = ProductMapper.to_model(product)
         model.save()
+
         return ProductMapper.to_entity(model)
 
     def update(self, product: Product) -> Product:
-        model = ProductModel.objects.get(id=product.id)
+        model = ProductModel.objects.filter(id=product.id).first()
 
-        updated = ProductMapper.to_model(product)
+        if not model:
+            raise Exception("Product not found")
 
-        model.name = updated.name
-        model.price = updated.price
-        model.stock = updated.stock
-
+        # ✔ ahora sí usa mapper completo
+        model = ProductMapper.to_model(product)
         model.save()
+
         return ProductMapper.to_entity(model)
 
     def delete(self, product_id: int) -> bool:
-        obj = ProductModel.objects.get(id=product_id)
+        obj = ProductModel.objects.filter(id=product_id).first()
+
+        if not obj:
+            return False
+
         obj.delete()
         return True

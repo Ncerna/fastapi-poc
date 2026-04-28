@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from  presentation.middleware import response_middleware
 import os
 import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
@@ -13,3 +14,4 @@ app = FastAPI()
 #  Composition Root
 app.include_router(get_user_controller().router)
 app.include_router(get_product_controller().router)
+app.middleware("http")(response_middleware)

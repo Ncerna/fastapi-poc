@@ -1,4 +1,6 @@
 from fastapi import APIRouter
+from application.dtos.product.create_product_dto import CreateProductDto
+from application.dtos.product.update_product_dto import UpdateProductDto
 
 class ProductController:
 
@@ -10,20 +12,20 @@ class ProductController:
     def _register_routes(self):
 
         @self.router.get("/")
-        def get_all():
-            return self.service.get_all()
+        def get_all(page: int = 1, size: int = 10):
+            return self.service.get_all(page, size)
 
         @self.router.get("/{product_id}")
         def get_by_id(product_id: int):
             return self.service.get_by_id(product_id)
 
         @self.router.post("/")
-        def create(product: dict):
+        def create(product: CreateProductDto):
             return self.service.create(product)
 
         @self.router.put("/{product_id}")
-        def update(product_id: int, product: dict):
-            return self.service.update(product)
+        def update(product_id: int, product: UpdateProductDto):
+            return self.service.update(product_id, product)
 
         @self.router.delete("/{product_id}")
         def delete(product_id: int):
