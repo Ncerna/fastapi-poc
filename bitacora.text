@@ -1,7 +1,14 @@
-1. Instalar FastAPI
-pip install fastapi uvicorn
+1.ists requerimets
 
-2.Ejecutar proyecto 
+pip freeze > requirements.txt
+
+2. migration init  
+python manage.py makemigrations
+
+3. push migration  to bd
+python manage.py migrate
+
+4. up proyect
 uvicorn main:app --reload
 
 fastapi-poc/
