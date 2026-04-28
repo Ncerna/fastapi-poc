@@ -1,5 +1,5 @@
-from domain.entities.product.product import Product
-from infrastructure_app.models.product_model import ProductModel
+from domain.entities.product import Product
+from infrastructure.django_infra.models.product_model import ProductModel
 
 
 class ProductMapper:

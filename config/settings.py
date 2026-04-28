@@ -17,10 +17,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'infrastructure_app',
-    "infrastructure_app.apps.InfrastructureAppConfig",
-   
-   
+    'infrastructure.django_infra.apps.InfrastructureAppConfig',
+
+    
 ]
 
 

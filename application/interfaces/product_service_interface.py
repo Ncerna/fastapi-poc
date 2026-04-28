@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from domain.entities.product.product import Product
+from domain.entities.product import Product
 
 class IProductService(ABC):
 

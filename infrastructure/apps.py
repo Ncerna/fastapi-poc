@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class InfrastructureAppConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "infrastructure_app"
+    name = "django_infra"

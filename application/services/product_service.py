@@ -1,6 +1,6 @@
 from application.interfaces.product_service_interface import IProductService
 from application.interfaces.product_repository_interface import IProductRepository
-from domain.entities.product.product import Product
+from domain.entities.product import Product
 
 class ProductService(IProductService):
 

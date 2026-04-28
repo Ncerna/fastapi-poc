@@ -1,7 +1,7 @@
 from application.interfaces.product_repository_interface import IProductRepository
-from infrastructure_app.models.product_model import ProductModel
+from infrastructure.django_infra.models.product_model import ProductModel
 from infrastructure.mappers.product.product_mapper import ProductMapper
-from domain.entities.product.product import Product
+from domain.entities.product import Product
 from typing import List, Optional
 
 class ProductRepository(IProductRepository):

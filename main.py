@@ -1,26 +1,15 @@
 from fastapi import FastAPI
 import os
 import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-#os.environ.setdefault(
-   # "DJANGO_SETTINGS_MODULE",
-   # "infrastructure_ul.django.config.settings"
-#)
 
 django.setup()
+from presentation.module import get_user_controller, get_product_controller
 
-# 📦 Imports correctos
-from infrastructure.repositories.django_product_repository import DjangoProductRepository
-from application.services.product_service import ProductService
-from presentation.controllers.product_controller import ProductController
-
-# 🚀 FastAPI app
+django.setup()
+#  FastAPI app
 app = FastAPI()
-
-# 🔥 Composition Root
-repository = DjangoProductRepository()
-service = ProductService(repository)
-controller = ProductController(service)
-
-# 🌐 Routes
-app.include_router(controller.router)
+#  Composition Root
+app.include_router(get_user_controller().router)
+app.include_router(get_product_controller().router)
