@@ -17,11 +17,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'infrastructure.django_infra.apps.InfrastructureAppConfig',
-
-    
+    'infrastructure.django_infra.apps.InfrastructureAppConfig',   
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,17 +57,29 @@ SIMPLE_JWT = {
 }
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
+#Posgres
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": "fasapi_poc",
-        "USER": "root",
-        "PASSWORD": "oracle",
+        "USER": "postgres",
+        "PASSWORD": "",
         "HOST": "127.0.0.1",
-        "PORT": "3306",
+        "PORT": "5432",
     }
 }
+#msql
+#DATABASES = {
+#    "default": {
+#       "ENGINE": "django.db.backends.mysql",
+#        "NAME": "fasapi_poc",
+#       "USER": "root",
+#        "PASSWORD": "oracle",
+#        "HOST": "127.0.0.1",
+#        "PORT": "3306",
+#    }
+#}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
