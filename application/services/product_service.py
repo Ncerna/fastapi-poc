@@ -25,11 +25,13 @@ class ProductService(IProductService):
             size=size
         )
     def get_by_id(self, product_id: int):
-        product = self.repository.get_by_id(product_id)
+     product = self.repository.get_by_id(product_id)
+     if not product:
+            raise AppException("Product not found", 404)
 
-        if not product:
-            raise AppException( "Product not found")
-        return ApiResponse(product)
+     return ApiResponse(  data=ProductMapper.to_response(product),
+            message="OK"
+         )
       
 
     def create(self, dto: CreateProductDto):

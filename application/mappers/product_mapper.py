@@ -1,4 +1,6 @@
 from domain.entities.product import Product
+from domain.value_objects.price import Price
+from domain.value_objects.stock import Stock
 from infrastructure.django_infra.models.product_model import ProductModel
 
 from application.dtos.product.create_product_dto import CreateProductDto
@@ -14,8 +16,8 @@ class ProductMapper:
         return Product(
             id=None,
             name=dto.name,
-            price=dto.price,
-            stock=dto.stock
+            price=Price(dto.price),
+            stock=Stock(dto.stock)
         )
 
     # DTO → ENTITY (UPDATE parcial)
@@ -26,10 +28,10 @@ class ProductMapper:
             entity.name = dto.name
 
         if dto.price is not None:
-            entity.price = dto.price
+            entity.price = Price(dto.price)
 
         if dto.stock is not None:
-            entity.stock = dto.stock
+            entity.stock = Stock(dto.stock)
 
         return entity
 
@@ -39,18 +41,18 @@ class ProductMapper:
         return ProductResponseDto(
             id=entity.id,
             name=entity.name,
-            price=entity.price,
-            stock=entity.stock
+            price=entity.price.value,
+            stock=entity.stock.value
         )
 
-    # ENTITY → MODEL (Django)
+    # ENTITY → DJANGO MODEL
     @staticmethod
     def to_model(entity: Product) -> ProductModel:
         return ProductModel(
             id=entity.id,
             name=entity.name,
-            price=entity.price,
-            stock=entity.stock
+            price=entity.price.value,
+            stock=entity.stock.value
         )
 
     # MODEL → ENTITY
@@ -59,6 +61,7 @@ class ProductMapper:
         return Product(
             id=model.id,
             name=model.name,
-            price=float(model.price),
-            stock=model.stock
+            price=Price(model.price),
+            stock=Stock(model.stock)
         )
+    
