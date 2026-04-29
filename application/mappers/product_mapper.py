@@ -1,4 +1,6 @@
 from domain.entities.product import Product
+from infrastructure.django_infra.models.product_model import ProductModel
+
 from application.dtos.product.create_product_dto import CreateProductDto
 from application.dtos.product.update_product_dto import UpdateProductDto
 from application.dtos.product.product_response_dto import ProductResponseDto
@@ -6,8 +8,9 @@ from application.dtos.product.product_response_dto import ProductResponseDto
 
 class ProductMapper:
 
+    # DTO → ENTITY (CREATE)
     @staticmethod
-    def to_entity(dto: CreateProductDto) -> Product:
+    def from_create_dto(dto: CreateProductDto) -> Product:
         return Product(
             id=None,
             name=dto.name,
@@ -15,6 +18,7 @@ class ProductMapper:
             stock=dto.stock
         )
 
+    # DTO → ENTITY (UPDATE parcial)
     @staticmethod
     def update_entity(entity: Product, dto: UpdateProductDto) -> Product:
 
@@ -29,6 +33,7 @@ class ProductMapper:
 
         return entity
 
+    # ENTITY → RESPONSE DTO
     @staticmethod
     def to_response(entity: Product) -> ProductResponseDto:
         return ProductResponseDto(
@@ -38,6 +43,22 @@ class ProductMapper:
             stock=entity.stock
         )
 
+    # ENTITY → MODEL (Django)
     @staticmethod
-    def to_response_list(entities: list[Product]) -> list[ProductResponseDto]:
-        return [ProductMapper.to_response(e) for e in entities]
+    def to_model(entity: Product) -> ProductModel:
+        return ProductModel(
+            id=entity.id,
+            name=entity.name,
+            price=entity.price,
+            stock=entity.stock
+        )
+
+    # MODEL → ENTITY
+    @staticmethod
+    def to_entity(model: ProductModel) -> Product:
+        return Product(
+            id=model.id,
+            name=model.name,
+            price=float(model.price),
+            stock=model.stock
+        )

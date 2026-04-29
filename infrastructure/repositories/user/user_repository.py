@@ -4,20 +4,17 @@ from application.interfaces.user_repository import IUserRepository
 
 
 class UserRepository(IUserRepository):
-
     def __init__(self):
         self.users = [
             User(1, "Daniel", "daniel@test.com"),
             User(2, "Ana", "ana@test.com"),
         ]
 
-    def get_all(self) -> List[User]:
-        return self.users
-
-    def get_by_id(self, user_id: int) -> User:
-        for u in self.users:
-            if u.id == user_id:
-                return u
-        return None
+    def get_all(self, page: int = 1, size: int = 10, search: str = None) -> List[User]:
+        total = len(self.users)
+        start = (page - 1) * size
+        end = start + size
+        users_page = self.users[start:end]
+        return users_page, total 
 
     

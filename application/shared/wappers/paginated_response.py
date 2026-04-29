@@ -5,7 +5,7 @@ T = TypeVar("T")
 
 
 class PaginatedResponse(BaseModel, Generic[T]):
-    items: List[T]
     total: int
     page: int
     size: int
+    items: List[T]

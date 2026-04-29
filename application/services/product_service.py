@@ -1,11 +1,13 @@
+
 from application.contract.product_service_interface import IProductService
-from application.interfaces.product_repository_interface import IProductRepository
+from application.interfaces.product_repository import IProductRepository
 from application.mappers.product_mapper import ProductMapper
-from shared.wappers.paginated_response import PaginatedResponse
+from application.shared.wappers.paginated_response import PaginatedResponse
+from application.shared.wappers.response import ApiResponse
 from application.dtos.product.create_product_dto import CreateProductDto
 from application.dtos.product.update_product_dto import UpdateProductDto
 from application.dtos.product.product_response_dto import ProductResponseDto
-from shared.exceptions.app_exception import AppException
+from application.errors.app_exception import AppException
 
 
 class ProductService(IProductService):
@@ -26,23 +28,28 @@ class ProductService(IProductService):
         product = self.repository.get_by_id(product_id)
 
         if not product:
-            raise AppException("NOT_FOUND", "Product not found", 404)
-
-        return product
+            raise AppException( "Product not found")
+        return ApiResponse(product)
+      
 
     def create(self, dto: CreateProductDto):
         entity = ProductMapper.from_create_dto(dto)
-        return self.repository.create(entity)
+        return ApiResponse( self.repository.create(entity),"Created successfully")
+
 
     def update(self, product_id: int, dto: UpdateProductDto):
         entity = self.repository.get_by_id(product_id)
 
         if not entity:
-            raise AppException("NOT_FOUND", "Product not found", 404)
+            raise AppException( "Product not found")
 
         entity = ProductMapper.update_entity(entity, dto)
-
-        return self.repository.update(entity)
+        return ApiResponse(self.repository.update(entity))
+    
 
     def delete(self, product_id: int):
-        return self.repository.delete(product_id)
+        if not self.repository.get_by_id(product_id):
+            raise AppException("Product not found", 404)
+        self.repository.delete(product_id)
+
+        return ApiResponse( data=True,  message="Deleted successfully")

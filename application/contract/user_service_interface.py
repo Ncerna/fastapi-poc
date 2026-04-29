@@ -1,10 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import List
-from domain.entities.user import User
+from application.shared.wappers.paginated_response import PaginatedResponse
 
 
 class IUserService(ABC):
 
     @abstractmethod
-    def list_users(self) -> List[User]:
+    def list_users(self,page: int = 1, size: int = 10, search:str =None) -> PaginatedResponse:
         pass

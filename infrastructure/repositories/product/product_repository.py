@@ -1,4 +1,4 @@
-from application.interfaces.product_repository_interface import IProductRepository
+from application.interfaces.product_repository import IProductRepository
 from infrastructure.django_infra.models.product_model import ProductModel
 from application.mappers.product_mapper import ProductMapper
 from domain.entities.product import Product
@@ -34,7 +34,6 @@ class ProductRepository(IProductRepository):
     def create(self, product: Product) -> Product:
         model = ProductMapper.to_model(product)
         model.save()
-
         return ProductMapper.to_entity(model)
 
     def update(self, product: Product) -> Product:
@@ -43,8 +42,10 @@ class ProductRepository(IProductRepository):
         if not model:
             raise Exception("Product not found")
 
-        # ✔ ahora sí usa mapper completo
-        model = ProductMapper.to_model(product)
+        model.name = product.name
+        model.price = product.price
+        model.stock = product.stock
+
         model.save()
 
         return ProductMapper.to_entity(model)

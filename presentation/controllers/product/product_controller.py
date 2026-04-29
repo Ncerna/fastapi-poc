@@ -1,10 +1,11 @@
 from fastapi import APIRouter
 from application.dtos.product.create_product_dto import CreateProductDto
 from application.dtos.product.update_product_dto import UpdateProductDto
+from application.contract.product_service_interface import IProductService
 
 class ProductController:
 
-    def __init__(self, service):
+    def __init__(self, service:IProductService):
         self.service = service
         self.router = APIRouter(prefix="/api/v1/products")
         self._register_routes()

@@ -10,13 +10,10 @@ from presentation.controllers.product.product_controller import ProductControlle
 
 
 def get_user_controller():
-    repo = UserRepository()
-    service = UserService(repo)
-    controller = UserController(service)
-    return controller
+  
+    return UserController(UserService(UserRepository()))
+
 
 def get_product_controller():
-    repo = ProductRepository()
-    service = ProductService(repo)
-    controller = ProductController(service)
-    return controller
+    return ProductController(ProductService(ProductRepository()))
+   

@@ -1,11 +1,16 @@
 from typing import Generic, TypeVar, Optional
-from pydantic import BaseModel
-from fastapi import FastAPI
 
 T = TypeVar("T")
 
-class ApiResponse(BaseModel, Generic[T]):
-    status: str = "success"
-    code: str = "OK"
-    message: str = "Operación exitosa"
-    data: Optional[T] = None
+class ApiResponse(Generic[T]):
+    def __init__(self, data: Optional[T] = None, message: str = "OK", status: bool = True):
+        self.data = data
+        self.message = message
+        self.status = status
+
+    def to_dict(self):
+        return {
+            "status": self.status,
+            "message": self.message,
+            "data": self.data
+        }

@@ -6,5 +6,5 @@ from domain.entities.user import User
 class IUserRepository(ABC):
 
     @abstractmethod
-    def get_all(self) -> List[User]:
+    def get_all(self,page: int = 1, size: int = 10, search:str =None) -> List[User]:
         pass
